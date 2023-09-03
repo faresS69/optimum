@@ -32,7 +32,7 @@ class CustomDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircleAvatar(
-                      backgroundImage: NetworkImage(currentUser.image),
+                      backgroundImage: NetworkImage(currentUser.image!),
                       radius: 50,
                       child: const Icon(Icons.account_circle, size: 50),
                     ),

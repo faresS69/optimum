@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:optimum/profile/profile_edit.dart';
 
 import '../models/user_model.dart';
 
@@ -18,6 +22,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.brown[50],
+        actions: [
+          widget.destination == FirebaseAuth.instance.currentUser?.uid ? IconButton(onPressed: (){Get.to(EditProfilePage());},
+              padding: EdgeInsets.all(8),tooltip: 'edit my infos',
+              icon: const Icon(Icons.edit)) : IconButton(onPressed: (){Fluttertoast.showToast(
+              msg: "Your uid: ${currentUserInfo.uid} \n this account uid: ${widget.destination}",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white);}, icon: Icon(Icons.close)),
+        ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -39,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: CircleAvatar(
                     radius: 80,
-                    backgroundImage: NetworkImage(currentUser.image), // Use your `currentUser.image` here
+                    backgroundImage: NetworkImage(currentUser.image!), // Use your `currentUser.image` here
                     backgroundColor: Colors.grey[300], // Default image background color
                     child: currentUser.image == null
                         ? Icon(

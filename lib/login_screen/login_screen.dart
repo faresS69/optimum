@@ -84,13 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 await _auth.signIn(
                     _emailController.text, _passwordController.text);
                 if(FirebaseAuth.instance.currentUser!=null){
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => GlassesScreen(),
-                    ),
-                        (route) => false,
-                  );
+                  Get.to(() => GlassesScreen());
+                  Get.offAll(GlassesScreen());
                   print(FirebaseAuth.instance.currentUser?.uid);
                 }
                 // Add your login logic here using the email and password variables

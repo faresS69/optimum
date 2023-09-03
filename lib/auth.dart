@@ -23,11 +23,8 @@ class authService {
 
   Future signUp(String email, String pw) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: pw);
-      User? user = result.user;
-      getCU(user!);
-      print(currentUserInfo.name);
-      return _userFromFirebase(user);
+      await _auth.createUserWithEmailAndPassword(email: email, password: pw);
+      return getCU();
     } catch (e) {
       return Fluttertoast.showToast(
           msg: e.toString(),
@@ -43,8 +40,15 @@ class authService {
       UserCredential result =
       await _auth.signInWithEmailAndPassword(email: email, password: pw);
       User? user = result.user;
-      getCU(user!);
-      return _userFromFirebase(user);
+/*
+      setValue('userId', user!.uid.validate());
+      setValue('userDisplayName', user.displayName.validate());
+      setValue('userEmail', user.email.validate());
+      setValue('userPhotoUrl', user.photoURL.validate());
+      setValue('userMobileNumber', user.phoneNumber.validate());
+      setValue('isEmailLogin', user.emailVerified.validate());*/
+      return getCU();
+      // return _userFromFirebase(user!);
     } catch (e) {
       Fluttertoast.showToast(
           msg: e.toString(),
@@ -53,13 +57,12 @@ class authService {
           backgroundColor: Colors.red,
           textColor: Colors.white);
     }
-    return null;
   }
 
-  Future<AppUser?> getCU(User user) async {
+  Future<AppUser?> getCU() async {
     Map<String, dynamic>? data = (await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
+        .collection('utilisateurs')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .get())
         .data();
     if (data != null) {
@@ -75,7 +78,7 @@ class authService {
       UserCredential result = await _auth.signInAnonymously();
       User? user = result.user;
       currentUserInfo.uid = user!.uid;
-      currentUserInfo.name = 'Guest';
+      currentUserInfo.name = 'Utilisateur anonyme';
       return user;
     } catch (e) {
       return Fluttertoast.showToast(
@@ -91,12 +94,8 @@ class authService {
     try {
       return await _auth.signOut();
     } catch (e) {
-      return Fluttertoast.showToast(
-          msg: e.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white);
+      print(e.toString());
+      return null;
     }
   }
 }

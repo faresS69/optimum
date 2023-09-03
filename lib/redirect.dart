@@ -6,6 +6,7 @@ import 'package:optimum/login_screen/login_screen.dart';
 import 'package:optimum/main_screen/home_page.dart';
 import 'package:optimum/models/user_model.dart';
 import 'package:provider/provider.dart';
+
 class Redirect extends StatelessWidget {
   const Redirect({Key? key}) : super(key: key);
 
@@ -14,7 +15,7 @@ class Redirect extends StatelessWidget {
     FirebaseAuth auth = FirebaseAuth.instance;
     final user = Provider.of<AppUser>(context);
 
-    if(user!= null){
+    if(auth.currentUser!= null){
       return GlassesScreen();
     }else{
       return LoginScreen();
