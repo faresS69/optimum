@@ -1,16 +1,17 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimum/models/user_model.dart';
+
 class authService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   AppUser _userFromFirebase(User? user) {
     return AppUser(
-      uid: user!.uid,
-      name: user.displayName!,
+      name: user!.displayName!,
+      uid: user.uid,
       image: user.photoURL!,
       password: '',
       email: user.email!,
@@ -61,7 +62,7 @@ class authService {
 
   Future<AppUser?> getCU() async {
     Map<String, dynamic>? data = (await FirebaseFirestore.instance
-        .collection('utilisateurs')
+        .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .get())
         .data();
@@ -78,7 +79,7 @@ class authService {
       UserCredential result = await _auth.signInAnonymously();
       User? user = result.user;
       currentUserInfo.uid = user!.uid;
-      currentUserInfo.name = 'Utilisateur anonyme';
+      currentUserInfo.name = 'Anonymous User';
       return user;
     } catch (e) {
       return Fluttertoast.showToast(

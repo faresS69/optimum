@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                     HomeProvider(firebaseFirestore: firebaseFirestore)),
 
           ],
-          child: MaterialApp(
+          child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Optimum',
             theme: ThemeData(

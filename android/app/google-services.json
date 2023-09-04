@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:215108974421:android:39eee8b0e2bb1cd85e61dc",
+        "mobilesdk_app_id": "1:215108974421:android:da3a02a007b74ab45e61dc",
         "android_client_info": {
           "package_name": "com.example.optimum"
         }
       },
       "oauth_client": [
         {
-          "client_id": "215108974421-a1q7e870044jl2h2epopn94b29rub9qb.apps.googleusercontent.com",
+          "client_id": "215108974421-eqb2ha84jukfueb4a2db8uguscijgcbl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

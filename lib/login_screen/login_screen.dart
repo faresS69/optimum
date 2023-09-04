@@ -26,13 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown[50],
@@ -80,15 +73,20 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                print('${_emailController.text}:::::${_passwordController.text}');
                 await _auth.signIn(
-                    _emailController.text, _passwordController.text);
+                    _emailController.text.toString(), _passwordController.text.toString());
+                print(FirebaseAuth.instance.currentUser?.uid);
                 if(FirebaseAuth.instance.currentUser!=null){
-                  Get.to(() => GlassesScreen());
-                  Get.offAll(GlassesScreen());
-                  print(FirebaseAuth.instance.currentUser?.uid);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => GlassesScreen(),
+                    ),
+                        (route) => false,
+                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => GlassesScreen()));
                 }
-                // Add your login logic here using the email and password variables
               },
               style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
                 foregroundColor: Colors.white,
